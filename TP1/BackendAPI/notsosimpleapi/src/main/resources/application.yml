@@ -8,10 +8,9 @@ spring:
     generate-ddl: false
     open-in-view: true
   datasource:
-    # Todo
-    url: jdbc:postgresql://postgres_con:5432/tp_db
-    username: tp_usr
-    password: tp_pwd
+    url: jdbc:postgresql://${DB_SERVER}/${DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
 management:
  server:
