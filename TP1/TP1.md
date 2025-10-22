@@ -144,3 +144,5 @@ $ docker build -t yuiko911/simpleapi .
 $ docker run -d --name=simple_api -p 8080:8080 yuiko911/simpleapi:latest
 ```
 *Note: Make sure to not use the same port as another container (Adminer in my case)*
+
+The URL scheme for the database is `jdbc:postgresql://[container name]:5432/tp_db`, while also making sure to be on the same network.
