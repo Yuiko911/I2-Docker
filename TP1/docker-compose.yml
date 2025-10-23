@@ -1,0 +1,43 @@
+services:
+  database:
+    build: ./Postgres
+    networks:
+      - app-network
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_NAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+
+  backend:
+    build: ./BackendAPI/notsosimpleapi
+    ports: 
+      - "8080:8080"
+    networks:
+      - app-network
+    depends_on:
+      - database
+    environment:
+      DB_SERVER: database
+      DB_NAME: ${DB_NAME}
+      DB_USERNAME: ${DB_NAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+
+  httpd:
+    build: ./HTTPServer
+    ports: 
+      - "80:80/tcp"
+    networks:
+      - app-network
+    depends_on:
+      - backend
+    environment:
+      PAGE_NAME: backend0
+
+networks:
+  app-network:
+
+volumes:
+  postgres-data:
+

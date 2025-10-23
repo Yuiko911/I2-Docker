@@ -207,3 +207,18 @@ COPY ./my-conf.conf /usr/local/apache2/conf/httpd.conf
 **Why do we need a reverse proxy?**
 
 Reverse proxies are an intermediary between a user's request and the servers. They lets us access different services on different ports through one address 
+
+## Link application
+
+### Docker-compose
+
+### Question 1.6
+**Why is docker-compose so important?**
+
+Docker-compose is used to run and manage multiple containers at once, and lets us configure everything at once in one file, which saves a lot of time. 
+
+### Question 1.7
+**Document docker-compose most important commands.**
+
+### Question 1.8
+**Document your docker-compose file.**
