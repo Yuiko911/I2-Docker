@@ -1,5 +1,6 @@
 services:
   database:
+    # TODO: Not use a dockerfile here, it's only 2 lines anyway 
     build: ./Postgres
     networks:
       - app-network
@@ -17,6 +18,7 @@ services:
     networks:
       - app-network
     depends_on:
+      # TODO: restart policies
       - database
     environment:
       DB_SERVER: database
@@ -33,7 +35,7 @@ services:
     depends_on:
       - backend
     environment:
-      PAGE_NAME: backend0
+      PAGE_NAME: backend
 
 networks:
   app-network:

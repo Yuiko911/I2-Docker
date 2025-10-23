@@ -220,5 +220,8 @@ Docker-compose is used to run and manage multiple containers at once, and lets u
 ### Question 1.7
 **Document docker-compose most important commands.**
 
+`docker compose up` starts every containers, `-d` is also possible here to start in detached mode
+`docker compose build --no-cache` force a rebuild of every containers
+
 ### Question 1.8
 **Document your docker-compose file.**
