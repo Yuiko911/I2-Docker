@@ -221,7 +221,21 @@ Docker-compose is used to run and manage multiple containers at once, and lets u
 **Document docker-compose most important commands.**
 
 `docker compose up` starts every containers, `-d` is also possible here to start in detached mode
+`docker compose down` stops everything
 `docker compose build --no-cache` force a rebuild of every containers
 
 ### Question 1.8
 **Document your docker-compose file.**
+(See file)
+
+## Publish
+
+### Question 1.9
+**Document your publication commands and published images in dockerhub.**
+
+I didn't do it.
+
+### Question 1.10
+**Why do we put our images into an online repo?**
+
+To let other people use them.

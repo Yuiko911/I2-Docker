@@ -29,7 +29,7 @@ services:
   httpd:
     build: ./HTTPServer
     ports: 
-      - "80:80/tcp"
+      - "80:80"
     networks:
       - app-network
     depends_on:
