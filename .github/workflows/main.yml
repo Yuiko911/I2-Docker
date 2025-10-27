@@ -41,7 +41,7 @@ jobs:
           # relative path to the place where source code with Dockerfile is located
           context: TP1/BackendAPI/notsosimpleapi/
           # Note: tags has to be all lower-case
-          tags:  ${{DOCKER_USERNAME}}/tp-devops-simple-api:latest
+          tags:  ${{env.DOCKER_USERNAME}}/tp-devops-simple-api:latest
 
       - name: Build image and push database
         uses: docker/build-push-action@v6
@@ -49,7 +49,7 @@ jobs:
           # relative path to the place where source code with Dockerfile is located
           context: TP1/Postgres/
           # Note: tags has to be all lower-case
-          tags:  ${{DOCKER_USERNAME}}/tp-devops-database:latest
+          tags:  ${{env.DOCKER_USERNAME}}/tp-devops-database:latest
           # DO the same for database
 
       - name: Build image and push httpd
@@ -58,5 +58,5 @@ jobs:
           # relative path to the place where source code with Dockerfile is located
           context: TP1/HTTPServer/
           # Note: tags has to be all lower-case
-          tags:  ${{DOCKER_USERNAME}}/tp-devops-httpd:latest
+          tags:  ${{env.DOCKER_USERNAME}}/tp-devops-httpd:latest
 
