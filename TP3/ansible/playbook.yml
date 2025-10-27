@@ -1,6 +1,15 @@
 - hosts: all
-  gather_facts: false
+  gather_facts: true
   become: true
+
+  vars_files:
+    - "vault.yml"
+
+  vars:
+    DB_SERVER: "{{ VAULT_DB_SERVER }}"
+    DB_NAME: "{{ VAULT_DB_NAME }}"
+    DB_USERNAME: "{{ VAULT_DB_USERNAME }}"
+    DB_PASSWORD: "{{ VAULT_DB_PASSWORD }}"
 
   roles:
     - docker

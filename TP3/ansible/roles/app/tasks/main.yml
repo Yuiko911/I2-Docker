@@ -1,3 +1,17 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # tasks file for roles/app
+- name: Launch API
+  community.docker.docker_container:
+    name: app
+    image: ilovedockingandfrotting/tp-devops-simple-api
+    state: started
+    networks:
+      - name: app-network
+    ports:
+      - "8080:8080"
+    env:
+      DB_SERVER: "database"
+      DB_NAME: "{{ DB_NAME }}"
+      DB_USERNAME: "{{ DB_NAME }}"
+      DB_PASSWORD: "{{ DB_PASSWORD }}"

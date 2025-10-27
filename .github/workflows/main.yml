@@ -48,6 +48,7 @@ jobs:
         with:
           # relative path to the place where source code with Dockerfile is located
           context: TP1/BackendAPI/notsosimpleapi/
+          options: "--env-file ../../.env"
           # Note: tags has to be all lower-case
           tags:  ${{vars.DOCKER_USERNAME}}/tp-devops-simple-api:latest
           # build on feature branches, push only on main branch
@@ -59,6 +60,7 @@ jobs:
         with:
           # relative path to the place where source code with Dockerfile is located
           context: TP1/Postgres/
+          options: "--env-file ../.env"
           # Note: tags has to be all lower-case
           tags:  ${{vars.DOCKER_USERNAME}}/tp-devops-database:latest
           # DO the same for database
