@@ -1,0 +1,7 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for roles/proxy
+- name: Run HTTPD
+  docker_container:
+    name: httpd
+    image: ilovedockingandfrotting/tp-devops-httpd
