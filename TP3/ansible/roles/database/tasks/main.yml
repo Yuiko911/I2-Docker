@@ -1,6 +1,17 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # tasks file for roles/database
+- name: Copy .env file to server
+  copy:
+    src: .env
+    dest: /home/admin/.env
+    mode: '0600'
+
+- name: Create Docker volume for PostgreSQL
+  community.docker.docker_volume:
+    name: postgres-data
+    state: present
+
 - name: Launch database
   community.docker.docker_container:
     name: database
