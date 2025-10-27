@@ -23,5 +23,5 @@ jobs:
 
      #finally build your app with the latest command
       - name: Build and test with Maven
-        working-directory: TP2/BackendAPI/notsosimpleapi/
+        working-directory: TP1/BackendAPI/notsosimpleapi/
         run: mvn clean verify --file pom.xml
