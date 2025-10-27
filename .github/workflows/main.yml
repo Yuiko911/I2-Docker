@@ -35,6 +35,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Login to DockerHub
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login --username ${{ vars.DOCKERHUB_USERNAME }} --password-stdin
+
       - name: Build image and push backend
         uses: docker/build-push-action@v6
         with:
@@ -42,6 +45,9 @@ jobs:
           context: TP1/BackendAPI/notsosimpleapi/
           # Note: tags has to be all lower-case
           tags:  ${{vars.DOCKER_USERNAME}}/tp-devops-simple-api:latest
+          # build on feature branches, push only on main branch
+          push: ${{ github.ref == 'refs/heads/main' }}
+
 
       - name: Build image and push database
         uses: docker/build-push-action@v6
@@ -51,6 +57,9 @@ jobs:
           # Note: tags has to be all lower-case
           tags:  ${{vars.DOCKER_USERNAME}}/tp-devops-database:latest
           # DO the same for database
+              # build on feature branches, push only on main branch
+          push: ${{ github.ref == 'refs/heads/main' }}
+
 
       - name: Build image and push httpd
         uses: docker/build-push-action@v6
@@ -59,4 +68,7 @@ jobs:
           context: TP1/HTTPServer/
           # Note: tags has to be all lower-case
           tags:  ${{vars.DOCKER_USERNAME}}/tp-devops-httpd:latest
+              # build on feature branches, push only on main branch
+          push: ${{ github.ref == 'refs/heads/main' }}
+
 
