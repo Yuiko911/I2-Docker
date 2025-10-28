@@ -81,13 +81,13 @@ jobs:
     # needs:
     #   test-backend
     steps:
-      - name: judge of hell gabriel save me 
-        run: "cat ${pwd}"
-      
+      - run: echo "${GITHUB_WORKSPACE}"
+
       - name: judge of hell gabriel save me 
         uses: gbh-tech/ansible-deployment-action@v0.0.4
         with:
           playbook_path: '.'
+          playbook_name: 'playbook.yml'
           workdir: 'TP3/ansible'
           ansible_vault_password: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
 
