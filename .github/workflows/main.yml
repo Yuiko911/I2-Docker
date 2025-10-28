@@ -2,7 +2,7 @@ name: CI devops 2025
 on:
   #to begin you want to launch this job in main and develop
   push:
-    branches: main
+    branches: [main]
   pull_request:
 
 jobs:
@@ -27,7 +27,6 @@ jobs:
       - name: Verify with Sonar
         working-directory: TP1/BackendAPI/notsosimpleapi/
         run: mvn -B verify sonar:sonar -Dsonar.projectKey=${{secrets.SONAR_PROJECTKEY}} -Dsonar.organization=${{vars.SONAR_ORGANIZATION}} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}  --file pom.xml
-
 
   # define job to build and publish docker image
   build-and-push-docker-image:
@@ -77,4 +76,27 @@ jobs:
               # build on feature branches, push only on main branch
           push: ${{ github.ref == 'refs/heads/main' }}
 
+  push-to-ansible:
+    runs-on: ubuntu-24.04
+    env:
+      ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
+    needs:
+      build-and-push-docker-image
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+
+      - name: Run playbook
+        working-directory: TP3/ansible/
+        shell: "/bin/bash"
+        run: | 
+          VAULT_FILE=$(mktemp)
+          chmod 600 "$VAULT_FILE"
+          printf '%s' "$ANSIBLE_VAULT_PASSWORD" > "$VAULT_FILE"
+
+          # ensure temp file is removed on exit (even on failure)
+          trap 'shred -u "$VAULT_FILE" 2>/dev/null || rm -f "$VAULT_FILE"' EXIT
+
+          # run the playbook using the vault password file
+          ansible-playbook -i inventories/setup.yml playbook.yml --vault-password-file "$VAULT_FILE"
 
