@@ -6,6 +6,7 @@
     name: database
     image: ilovedockingandfrotting/tp-devops-database:latest
     restart_policy: unless-stopped
+    pull: always
     volumes:
       - postgres-data:/var/lib/postgresql/data
     networks:

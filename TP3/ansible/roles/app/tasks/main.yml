@@ -5,6 +5,7 @@
   community.docker.docker_container:
     name: app
     image: ilovedockingandfrotting/tp-devops-simple-api:latest
+    pull: always
     networks:
       - name: app-network
       - name: proxy-network

@@ -5,6 +5,7 @@
   docker_container:
     name: httpd
     image: ilovedockingandfrotting/tp-devops-httpd:latest
+    pull: always
     restart_policy: no
     networks:
       - name: proxy-network
