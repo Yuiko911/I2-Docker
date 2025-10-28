@@ -81,7 +81,7 @@ jobs:
     # needs:
     #   test-backend
     steps:
-      - run: echo "${GITHUB_WORKSPACE}"
+      - run: ls "${GITHUB_WORKSPACE}"
 
       - name: judge of hell gabriel save me 
         uses: gbh-tech/ansible-deployment-action@v0.0.4
