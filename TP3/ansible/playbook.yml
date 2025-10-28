@@ -12,7 +12,9 @@
     DB_PASSWORD: "{{ VAULT_DB_PASSWORD }}"
 
   pre_tasks:
-    - msg: "{{ VAULT_DB_SERVER }}"
+    - name: AAAAAAAAAAAAA
+      ansible.builtin.debug:
+        msg: "{{ VAULT_DB_SERVER }}"
 
   roles:
     - env
