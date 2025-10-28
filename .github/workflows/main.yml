@@ -107,10 +107,25 @@ jobs:
           fi
           chmod 644 ~/.ssh/known_hosts
 
-      - name: Run playbook
+      - name: Write .env (from secret) and run playbook
         working-directory: TP3/ansible/
         shell: bash
-        run: | 
+        env:
+          DOTENV: ${{ secrets.DOTENV }}
+          ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
+        run: |
+          # create .env in the playbook directory (or temp then move)
+          ENV_FILE="$(mktemp)"
+          chmod 600 "$ENV_FILE"
+          printf '%s\n' "$DOTENV" > "$ENV_FILE"
+
+          # Move to repo path if your playbook expects ./ .env
+          mv "$ENV_FILE" ./.env
+          chmod 600 ./.env
+
+          # ensure secure cleanup on exit (attempt shred, otherwise rm)
+          trap 'if command -v shred >/dev/null 2>&1; then shred -u -- ./.env 2>/dev/null || rm -f -- ./.env; else rm -f -- ./.env; fi' EXIT
+
           VAULT_FILE=$(mktemp)
           chmod 600 "$VAULT_FILE"
           printf '%s' "$ANSIBLE_VAULT_PASSWORD" > "$VAULT_FILE"
