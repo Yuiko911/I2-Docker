@@ -82,7 +82,7 @@ jobs:
       test-backend
     steps:
       - name: judge of hell gabriel save me 
-        uses: actions/ansible-deployment@v0.0.3
+        uses: gbh-tech/ansible-deployment-action@v0.0.4
         with:
           context: TP3/ansible/
           playbook_path: '.'
