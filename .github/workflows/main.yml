@@ -79,7 +79,7 @@ jobs:
   push-to-ansible:
     runs-on: ubuntu-24.04
     needs:
-      test-backend
+      build-and-push-docker-image
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
