@@ -84,22 +84,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - run: ls
-
       - name: judge of hell gabriel save me 
-        uses: ministryofjustice/ansible-playbook-with-keyvault-action@v1.0
+        uses: dawidd6/action-ansible-playbook@v5
         with:
-          keyvault_name: vault.yml
-          # keyvault_secret_name_vault_password: 'ansible-vault-password'
-          # keyvault_secret_name_ssh_privkey: 'ansible-ssh-privkey'
+          playbook: playbook.yml
+          directory: TP3/ansible
+          key: ${{secrets.ANSIBLE_SSH_PRIVATE}}
+          vault_password: ${{secrets.ANSIBLE_VAULT_PASSWORD}}
+          options: |
+            -i inventories/setup.yml
 
-          # ssh_password_txt_filename: 'ansible_pass'
-          # ssh_privkey_filename: 'ansible_key'
-          
-          ansible_dir: ${{ github.workspace }}/TP3/ansible
-          ansible_playbook: playbook.yml
-          ansible_inventory: inventories/setup.yml
-          ansible_user: 'admin'
+
 
     # env:
     #   ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
