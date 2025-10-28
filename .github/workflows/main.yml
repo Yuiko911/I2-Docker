@@ -87,13 +87,19 @@ jobs:
       - run: ls
 
       - name: judge of hell gabriel save me 
-        uses: gbh-tech/ansible-deployment-action@v0.0.4
+        uses: ministryofjustice/ansible-playbook-with-keyvault-action@v1.0
         with:
-          playbook_path: '.'
-          playbook_name: 'playbook.yml'
-          workdir: 'TP3/'
-          ansible_vault_password: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
+          keyvault_name: vault.yml
+          # keyvault_secret_name_vault_password: 'ansible-vault-password'
+          # keyvault_secret_name_ssh_privkey: 'ansible-ssh-privkey'
 
+          # ssh_password_txt_filename: 'ansible_pass'
+          # ssh_privkey_filename: 'ansible_key'
+          
+          ansible_dir: ${{ github.workspace }}/TP3/ansible
+          ansible_playbook: playbook.yml
+          ansible_inventory: inventories/setup.yml
+          ansible_user: 'admin'
 
     # env:
     #   ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
