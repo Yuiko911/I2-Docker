@@ -4,7 +4,7 @@
 - name: Run HTTPD
   docker_container:
     name: httpd
-    image: ilovedockingandfrotting/tp-devops-httpd:latest
+    image: ilovedockingandfrotting/tp-devops-httpd2:latest
     pull: always
     restart_policy: no
     networks:
