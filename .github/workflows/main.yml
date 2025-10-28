@@ -82,7 +82,7 @@ jobs:
     #   test-backend
     steps:
       - name: judge of hell gabriel save me 
-        run: "echo ${pwd}"
+        run: "cat ${pwd}"
       
       - name: judge of hell gabriel save me 
         uses: gbh-tech/ansible-deployment-action@v0.0.4
