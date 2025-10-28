@@ -86,7 +86,7 @@ jobs:
         with:
           context: TP3/ansible/
           playbook_path: '.'
-          ansible_vault_password: ${{ secret.ANSIBLE_VAULT_PASSWORD }}
+          ansible_vault_password: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
 
 
     # env:
