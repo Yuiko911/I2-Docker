@@ -29,62 +29,83 @@ jobs:
         run: mvn -B verify sonar:sonar -Dsonar.projectKey=${{secrets.SONAR_PROJECTKEY}} -Dsonar.organization=${{vars.SONAR_ORGANIZATION}} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}  --file pom.xml
 
   # define job to build and publish docker image
-  build-and-push-docker-image:
-    runs-on: ubuntu-24.04
-    # run only when code is compiling and tests are passing
-    needs: test-backend
+  # build-and-push-docker-image:
+  #   runs-on: ubuntu-24.04
+  #   # run only when code is compiling and tests are passing
+  #   needs: test-backend
 
-    # steps to perform in job
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+  #   # steps to perform in job
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
 
-      - name: Login to DockerHub
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login --username ${{ vars.DOCKER_USERNAME }} --password-stdin
+  #     - name: Login to DockerHub
+  #       run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login --username ${{ vars.DOCKER_USERNAME }} --password-stdin
 
-      - name: Build image and push backend
-        uses: docker/build-push-action@v6
-        with:
-          # relative path to the place where source code with Dockerfile is located
-          context: TP1/BackendAPI/notsosimpleapi/
-          options: "--env-file ../../.env"
-          # Note: tags has to be all lower-case
-          tags:  ${{vars.DOCKER_USERNAME}}/tp-devops-simple-api:latest
-          # build on feature branches, push only on main branch
-          push: ${{ github.ref == 'refs/heads/main' }}
-
-
-      - name: Build image and push database
-        uses: docker/build-push-action@v6
-        with:
-          # relative path to the place where source code with Dockerfile is located
-          context: TP1/Postgres/
-          # Note: tags has to be all lower-case
-          tags:  ${{vars.DOCKER_USERNAME}}/tp-devops-database:latest
-          # DO the same for database
-              # build on feature branches, push only on main branch
-          push: ${{ github.ref == 'refs/heads/main' }}
+  #     - name: Build image and push backend
+  #       uses: docker/build-push-action@v6
+  #       with:
+  #         # relative path to the place where source code with Dockerfile is located
+  #         context: TP1/BackendAPI/notsosimpleapi/
+  #         options: "--env-file ../../.env"
+  #         # Note: tags has to be all lower-case
+  #         tags:  ${{vars.DOCKER_USERNAME}}/tp-devops-simple-api:latest
+  #         # build on feature branches, push only on main branch
+  #         push: ${{ github.ref == 'refs/heads/main' }}
 
 
-      - name: Build image and push httpd
-        uses: docker/build-push-action@v6
-        with:
-          # relative path to the place where source code with Dockerfile is located
-          context: TP1/HTTPServer/
-          # Note: tags has to be all lower-case
-          tags:  ${{vars.DOCKER_USERNAME}}/tp-devops-httpd:latest
-              # build on feature branches, push only on main branch
-          push: ${{ github.ref == 'refs/heads/main' }}
+  #     - name: Build image and push database
+  #       uses: docker/build-push-action@v6
+  #       with:
+  #         # relative path to the place where source code with Dockerfile is located
+  #         context: TP1/Postgres/
+  #         # Note: tags has to be all lower-case
+  #         tags:  ${{vars.DOCKER_USERNAME}}/tp-devops-database:latest
+  #         # DO the same for database
+  #             # build on feature branches, push only on main branch
+  #         push: ${{ github.ref == 'refs/heads/main' }}
+
+
+  #     - name: Build image and push httpd
+  #       uses: docker/build-push-action@v6
+  #       with:
+  #         # relative path to the place where source code with Dockerfile is located
+  #         context: TP1/HTTPServer/
+  #         # Note: tags has to be all lower-case
+  #         tags:  ${{vars.DOCKER_USERNAME}}/tp-devops-httpd:latest
+  #             # build on feature branches, push only on main branch
+  #         push: ${{ github.ref == 'refs/heads/main' }}
 
   push-to-ansible:
     runs-on: ubuntu-24.04
     env:
       ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
     needs:
-      build-and-push-docker-image
+      test-backend
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v4
+
+      - name: Start ssh-agent and add private key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.ANSIBLE_SSH_PRIVATE }}
+
+      - name: Add host to known_hosts (prefer secret)
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+
+          if [ -n "${{ secrets.SSH_KNOWN_HOSTS }}" ]; then
+            # Use pre-verified known_hosts content from a secret (recommended)
+            printf '%s\n' "${{ secrets.SSH_KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
+          else
+            # Fallback: discover host keys via ssh-keyscan (you should verify the fingerprint manually)
+            # Replace with your actual host(s) or a variable containing hosts.
+            TARGET_HOST="antoine.meunier.takima.cloud"
+            ssh-keyscan -H "$TARGET_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+          fi
+          chmod 644 ~/.ssh/known_hosts
 
       - name: Run playbook
         working-directory: TP3/ansible/
