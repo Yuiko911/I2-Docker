@@ -19,8 +19,6 @@
 
 These are containers ran for the sole purpose of testing.
 
-
-
 ### Question 2.2
 **For what purpose do we need to use secured variables ?**
 
@@ -29,9 +27,9 @@ We use secured variables to store sensitive information.
 ### Question 2.3
 **Why did we put `needs: build-and-test-backend` on this job? Maybe try without this and you will see!**
 
-To make sure our images are only pushed to Docker if everything is in order.
+To make sure our images are only pushed to Docker if everything is in order, to not ship a broken image.
 
 ### Question 2.4
 **For what purpose do we need to push docker images?**
 
-d
+We need to push images so that other users may use them. It will also be helpful for the next step to pulll our images remotely.
