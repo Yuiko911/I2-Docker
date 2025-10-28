@@ -1,0 +1,7 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for roles/volume
+- name: Create Docker volume for PostgreSQL
+  community.docker.docker_volume:
+    name: postgres-data
+    state: present

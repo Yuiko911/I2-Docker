@@ -5,11 +5,11 @@
   community.docker.docker_container:
     name: app
     image: ilovedockingandfrotting/tp-devops-simple-api
-    state: started
     networks:
       - name: app-network
-    ports:
-      - "8080:8080"
+      - name: proxy-network
+    restart_policy: on-failure
+    restart_retries: 3
     env:
       DB_SERVER: "database"
       DB_NAME: "{{ DB_NAME }}"

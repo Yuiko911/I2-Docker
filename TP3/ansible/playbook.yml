@@ -12,7 +12,9 @@
     DB_PASSWORD: "{{ VAULT_DB_PASSWORD }}"
 
   roles:
+    - env
     - docker
+    - volume
     - network
     - database
     - app

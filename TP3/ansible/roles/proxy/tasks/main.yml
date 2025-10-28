@@ -5,10 +5,9 @@
   docker_container:
     name: httpd
     image: ilovedockingandfrotting/tp-devops-httpd
-    state: started
-    restart_policy: "no"
+    restart_policy: no
     networks:
-      - name: app-network
+      - name: proxy-network
     ports:
       - "80:80"
     env:
