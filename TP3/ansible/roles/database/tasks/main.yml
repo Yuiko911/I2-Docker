@@ -4,7 +4,7 @@
 - name: Launch database
   community.docker.docker_container:
     name: database
-    image: ilovedockingandfrotting/tp-devops-database
+    image: ilovedockingandfrotting/tp-devops-database:latest
     restart_policy: unless-stopped
     volumes:
       - postgres-data:/var/lib/postgresql/data

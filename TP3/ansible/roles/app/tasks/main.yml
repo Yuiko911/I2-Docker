@@ -4,7 +4,7 @@
 - name: Launch API
   community.docker.docker_container:
     name: app
-    image: ilovedockingandfrotting/tp-devops-simple-api
+    image: ilovedockingandfrotting/tp-devops-simple-api:latest
     networks:
       - name: app-network
       - name: proxy-network
