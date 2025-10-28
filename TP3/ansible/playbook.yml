@@ -11,13 +11,8 @@
     DB_USERNAME: "{{ VAULT_DB_USERNAME }}"
     DB_PASSWORD: "{{ VAULT_DB_PASSWORD }}"
 
-  pre_tasks:
-    - name: AAAAAAAAAAAAA
-      ansible.builtin.debug:
-        msg: "{{ VAULT_DB_SERVER }}"
-
   roles:
-    - env
+    # - env
     - docker
     - volume
     - network
